@@ -2,7 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const sqlite3 = require("sqlite3").verbose();
 
-const dataDir = path.join(process.cwd(), "data");
+const dataDir = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.join(process.cwd(), "data");
 const dbPath = path.join(dataDir, "qr_utility.sqlite");
 
 if (!fs.existsSync(dataDir)) {
@@ -79,4 +81,3 @@ module.exports = {
   all,
   initializeDatabase
 };
-

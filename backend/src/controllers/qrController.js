@@ -8,6 +8,10 @@ const {
   deleteQrRecord
 } = require("../services/qrService");
 
+const uploadsDir = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.join(process.cwd(), "uploads");
+
 const canMutate = (user, record) => {
   if (!record) {
     return false;
@@ -88,7 +92,7 @@ const remove = async (req, res, next) => {
     }
 
     if (current.file_path) {
-      const fullPath = path.join(process.cwd(), current.file_path.replace("/uploads/", "uploads/"));
+      const fullPath = path.join(uploadsDir, path.basename(current.file_path));
       if (fs.existsSync(fullPath)) {
         fs.unlinkSync(fullPath);
       }
@@ -107,4 +111,3 @@ module.exports = {
   update,
   remove
 };
-

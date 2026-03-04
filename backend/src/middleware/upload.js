@@ -2,7 +2,9 @@ const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
 
-const uploadsDir = path.join(process.cwd(), "uploads");
+const uploadsDir = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.join(process.cwd(), "uploads");
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
@@ -37,4 +39,3 @@ const upload = multer({
 });
 
 module.exports = upload;
-

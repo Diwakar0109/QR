@@ -9,6 +9,9 @@ const qrRoutes = require("./routes/qrRoutes");
 dotenv.config();
 
 const app = express();
+const uploadsDir = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.join(process.cwd(), "uploads");
 
 app.use(
   cors({
@@ -17,7 +20,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/uploads", express.static(uploadsDir));
 
 // Serve frontend static files
 const frontendDir = path.join(process.cwd(), "..", "frontend");
@@ -57,4 +60,3 @@ app.use((error, _req, res, _next) => {
 });
 
 module.exports = app;
-
